@@ -12,26 +12,23 @@ GIT_PROMPT_SEPARATOR=" "              # separates each item
 GIT_PROMPT_BRANCH=""        # the git branch that is active in the current directory
 
 GIT_PROMPT_STAGED="${Red}●"           # the number of staged files/directories
-GIT_PROMPT_STAGED_COLOR="${Blue}"     # the color to use in compact mode for staged files
-
 GIT_PROMPT_CONFLICTS="${Red}✖"        # the number of files in conflict
-GIT_PROMPT_CONFLICTS_COLOR="${Red}"   # the color to use in compact mode for conflicts
-
 GIT_PROMPT_CHANGED="${Blue}✚"         # the number of changed files
-GIT_PROMPT_CHANGED_COLOR="${Blue}"    # the color to use in compact mode for changed files 
 
 GIT_PROMPT_REMOTE=" "                 # the remote branch name (if any) and the symbols for ahead and behind
 
 GIT_PROMPT_UNTRACKED="${Cyan}…"       # the number of untracked files/dirs
-GIT_PROMPT_UNTRACKED_COLOR="${Blue}"  # the color to use in compact mode for untracked files
 
 GIT_PROMPT_STASHED="${BoldBlue}⚑"     # the number of stashed files/dir
 
 GIT_PROMPT_CLEAN="${BoldGreen}✔"      # a colored flag indicating a "clean" repo
-GIT_PROMPT_CLEAN_COLOR="${Green}"     # the color to use in compact mode for clean repo 
 
 GIT_PROMPT_COMMAND_OK="${Green}✔ "    # indicator if the last command returned with an exit code of 0
 GIT_PROMPT_COMMAND_FAIL="${Red}✘ "   # indicator if the last command returned with an exit code of other than 0
+
+GIT_PROMPT_CLEAN_COLOR="${Green}"     # the color to use in compact mode for clean repo 
+GIT_PROMPT_NOT_CLEAN_COLOR="${Blue}"     # the color to use in compact mode for not clean repo 
+GIT_PROMPT_CONFLICTS_COLOR="${Red}"   # the color to use in compact mode for conflicts
 
 GIT_PROMPT_START_USER="${PathShort}${ResetColor}"
 GIT_PROMPT_START_ROOT="${PathShort}${ResetColor}"

@@ -83,18 +83,18 @@ function git_prompt_config()
     GIT_PROMPT_SEPARATOR="|"
     GIT_PROMPT_BRANCH="${Magenta}"
     GIT_PROMPT_STAGED="${Red}●"
-    GIT_PROMPT_STAGED_COLOR="${Blue}"
     GIT_PROMPT_CONFLICTS="${Red}✖"
     GIT_PROMPT_CHANGED="${Blue}✚"
-    GIT_PROMPT_CHANGED_COLOR="${Blue}"
     GIT_PROMPT_REMOTE=" "
     GIT_PROMPT_UNTRACKED="${Cyan}…"
-    GIT_PROMPT_UNTRACKED_COLOR="${Blue}"
     GIT_PROMPT_STASHED="${BoldBlue}⚑"
     GIT_PROMPT_CLEAN="${BoldGreen}✔"
-    GIT_PROMPT_CLEAN_COLOR="${Green}"
     GIT_PROMPT_COMMAND_OK="${Green}✔ "
     GIT_PROMPT_COMMAND_FAIL="${Red}✘ "
+
+    GIT_PROMPT_CLEAN_COLOR="${Green}"
+    GIT_PROMPT_NOT_CLEAN_COLOR="${Blue}"
+    GIT_PROMPT_CONFLICTS_COLOR="${Red}"
 
     GIT_PROMPT_START_USER="${Yellow}${PathShort}${ResetColor}"
     GIT_PROMPT_START_ROOT="${Yellow}${PathShort}${ResetColor}"
@@ -275,20 +275,16 @@ function updatePrompt() {
     STATUS="${STATUS}${GIT_PROMPT_SEPARATOR}"
     if [ "${GIT_STAGED}" -ne "0" ]; then
       	if [ "${PROMPT_COMPACT_MODE}" ]; then      
-	  StatusColor=${GIT_PROMPT_STAGED_COLOR}
+	  StatusColor=${GIT_PROMPT_NOT_CLEAN_COLOR}
 	  STATUS="${StatusColor}${STATUS}${ResetColor}"
 	else
 	  STATUS="${STATUS}${GIT_PROMPT_STAGED}${GIT_STAGED}${ResetColor}"
 	fi
     fi
 
-    if [ "${GIT_CONFLICTS}" -ne "0" ]; then
-      STATUS="${STATUS}${GIT_PROMPT_CONFLICTS}${GIT_CONFLICTS}${ResetColor}"
-    fi
-
     if [ "${GIT_CHANGED}" -ne "0" ]; then
 	if [ "${PROMPT_COMPACT_MODE}" ]; then      
-	  StatusColor=${GIT_PROMPT_CHANGED_COLOR}
+	  StatusColor=${GIT_PROMPT_NOT_CLEAN_COLOR}
 	  STATUS="${StatusColor}${STATUS}${ResetColor}"
 	else
 	  STATUS="${STATUS}${GIT_PROMPT_CHANGED}${GIT_CHANGED}${ResetColor}"
@@ -297,10 +293,19 @@ function updatePrompt() {
 
     if [ "${GIT_UNTRACKED}" -ne "0" ]; then
 	if [ "${PROMPT_COMPACT_MODE}" ]; then      
-	  StatusColor=${GIT_PROMPT_UNTRACKED_COLOR}
+	  StatusColor=${GIT_PROMPT_NOT_CLEAN_COLOR}
 	  STATUS="${StatusColor}${STATUS}${ResetColor}"
 	else
 	  STATUS="${STATUS}${GIT_PROMPT_UNTRACKED}${GIT_UNTRACKED}${ResetColor}"
+	fi
+    fi
+
+    if [ "${GIT_CONFLICTS}" -ne "0" ]; then
+	if [ "${PROMPT_COMPACT_MODE}" ]; then      
+	  StatusColor=${GIT_PROMPT_CONFLICTS_COLOR}
+	  STATUS="${StatusColor}${STATUS}${ResetColor}"
+	else
+          STATUS="${STATUS}${GIT_PROMPT_CONFLICTS}${GIT_CONFLICTS}${ResetColor}"
 	fi
     fi
 
