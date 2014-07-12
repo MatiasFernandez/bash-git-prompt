@@ -1,5 +1,6 @@
 local Time12a="\$(date +%H:%M)"
 local PathShort="\w"
+local Orange="\e[38;5;172m"
 
 GIT_PROMPT_ONLY_IN_REPO=1
 GIT_PROMPT_COMPACT_MODE=1             # a compact mode that uses colors to show the local status of the repo
@@ -35,8 +36,8 @@ GIT_PROMPT_START_ROOT="${PathShort}${ResetColor}"
 GIT_PROMPT_END_USER=" ${ResetColor}$ "
 GIT_PROMPT_END_ROOT=" ${ResetColor}# "
 
-GIT_REMOTE_AHEAD_COLOR="${Magenta}"
-GIT_REMOTE_BEHIND_COLOR="${Yellow}"
+GIT_REMOTE_AHEAD_COLOR="${Blue}"
+GIT_REMOTE_BEHIND_COLOR="${Magenta}"
 
 # Please do not add colors to these symbols
 GIT_PROMPT_SYMBOLS_AHEAD="↑"         # The symbol for "n versions ahead of origin"
