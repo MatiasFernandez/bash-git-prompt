@@ -15,7 +15,7 @@ GIT_PROMPT_STAGED="${Red}●"           # the number of staged files/directories
 GIT_PROMPT_CONFLICTS="${Red}✖"        # the number of files in conflict
 GIT_PROMPT_CHANGED="${Blue}✚"         # the number of changed files
 
-GIT_PROMPT_REMOTE=" "                 # the remote branch name (if any) and the symbols for ahead and behind
+GIT_PROMPT_REMOTE=""                 # the remote branch name (if any) and the symbols for ahead and behind
 
 GIT_PROMPT_UNTRACKED="${Cyan}…"       # the number of untracked files/dirs
 
