@@ -257,6 +257,10 @@ function updatePrompt() {
   local GIT_REMOTE=${GitStatus[1]}
   if [[ "." == "$GIT_REMOTE" ]]; then
     unset GIT_REMOTE
+  else
+    IFS=${GIT_PROMPT_SYMBOLS_AHEAD} read -a GIT_REMOTE_SPLITED <<< "${GIT_REMOTE}"    
+    local GIT_REMOTE_BEHIND=${GIT_REMOTE_SPLITED[0]}
+    local GIT_REMOTE_AHEAD=${GIT_PROMPT_SYMBOLS_AHEAD}${GIT_REMOTE_SPLITED[1]}
   fi
   local GIT_STAGED=${GitStatus[2]}
   local GIT_CONFLICTS=${GitStatus[3]}
@@ -269,7 +273,7 @@ function updatePrompt() {
     local STATUS="${PROMPT_LEADING_SPACE}${GIT_PROMPT_PREFIX}${GIT_PROMPT_BRANCH}${GIT_BRANCH}${ResetColor}"
 
     if [[ -n "${GIT_REMOTE}" ]]; then
-      STATUS="${STATUS}${GIT_PROMPT_REMOTE}${GIT_REMOTE}${ResetColor}"
+      STATUS="${STATUS}${GIT_PROMPT_REMOTE}${GIT_REMOTE_BEHIND_COLOR}${GIT_REMOTE_BEHIND}${ResetColor}${GIT_REMOTE_AHEAD_COLOR}${GIT_REMOTE_AHEAD}${ResetColor}"
     fi
 
     STATUS="${STATUS}${GIT_PROMPT_SEPARATOR}"

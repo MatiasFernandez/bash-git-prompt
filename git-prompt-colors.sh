@@ -7,7 +7,7 @@ GIT_PROMPT_COMPACT_MODE=1             # a compact mode that uses colors to show 
 # These are the color definitions used by gitprompt.sh
 GIT_PROMPT_PREFIX="("                 # start of the git info string
 GIT_PROMPT_SUFFIX=")"                 # the end of the git info string
-GIT_PROMPT_SEPARATOR=" "              # separates each item
+GIT_PROMPT_SEPARATOR=""              # separates each item
 
 GIT_PROMPT_BRANCH=""        # the git branch that is active in the current directory
 
@@ -35,7 +35,10 @@ GIT_PROMPT_START_ROOT="${PathShort}${ResetColor}"
 GIT_PROMPT_END_USER=" ${ResetColor}$ "
 GIT_PROMPT_END_ROOT=" ${ResetColor}# "
 
+GIT_REMOTE_AHEAD_COLOR="${Magenta}"
+GIT_REMOTE_BEHIND_COLOR="${Yellow}"
+
 # Please do not add colors to these symbols
-GIT_PROMPT_SYMBOLS_AHEAD="↑·"         # The symbol for "n versions ahead of origin"
-GIT_PROMPT_SYMBOLS_BEHIND="↓·"        # The symbol for "n versions behind of origin"
+GIT_PROMPT_SYMBOLS_AHEAD="↑"         # The symbol for "n versions ahead of origin"
+GIT_PROMPT_SYMBOLS_BEHIND="↓"        # The symbol for "n versions behind of origin"
 GIT_PROMPT_SYMBOLS_PREHASH=":"        # Written before hash of commit, if no name could be found
