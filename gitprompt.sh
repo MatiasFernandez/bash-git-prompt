@@ -260,7 +260,10 @@ function updatePrompt() {
   else
     IFS=${GIT_PROMPT_SYMBOLS_AHEAD} read -a GIT_REMOTE_SPLITED <<< "${GIT_REMOTE}"    
     local GIT_REMOTE_BEHIND=${GIT_REMOTE_SPLITED[0]}
-    local GIT_REMOTE_AHEAD=${GIT_PROMPT_SYMBOLS_AHEAD}${GIT_REMOTE_SPLITED[1]}
+    local GIT_REMOTE_AHEAD=${GIT_REMOTE_SPLITED[1]}
+    if [[-n "${GIT_REMOTE_AHEAD}" ]]; then
+      GIT_REMOTE_AHEAD=${GIT_PROMPT_SYMBOLS_AHEAD}${GIT_REMOTE_AHEAD}
+    fi
   fi
   local GIT_STAGED=${GitStatus[2]}
   local GIT_CONFLICTS=${GitStatus[3]}
