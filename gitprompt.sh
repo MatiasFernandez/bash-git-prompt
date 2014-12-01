@@ -104,7 +104,7 @@ function git_prompt_config()
     # Please do not add colors to these symbols
     GIT_PROMPT_SYMBOLS_AHEAD="↑·"
     GIT_PROMPT_SYMBOLS_BEHIND="↓·"
-    GIT_PROMPT_SYMBOLS_PREHASH=":"    
+    GIT_PROMPT_SYMBOLS_PREHASH=":"
   fi
 
   if [ "x${GIT_PROMPT_SHOW_LAST_COMMAND_INDICATOR}" == "x1" ]; then
@@ -142,13 +142,6 @@ function git_prompt_config()
     PROMPT_LEADING_SPACE=""
   else
     PROMPT_LEADING_SPACE=" "
-  fi
-
-  # set GIT_PROMPT_COMPACT_MODE to 1 if you want to use a compact prompt that show git status using colors
-  if [ "x${GIT_PROMPT_COMPACT_MODE}" == "x" ]; then
-    PROMPT_COMPACT_MODE=0
-  else
-    PROMPT_COMPACT_MODE=${GIT_PROMPT_COMPACT_MODE}
   fi
 
   if [ "x${GIT_PROMPT_ONLY_IN_REPO}" == "x1" ]; then
@@ -258,7 +251,7 @@ function updatePrompt() {
   if [[ "." == "$GIT_REMOTE" ]]; then
     unset GIT_REMOTE
   else
-    IFS=${GIT_PROMPT_SYMBOLS_AHEAD} read -a GIT_REMOTE_SPLITED <<< "${GIT_REMOTE}"    
+    IFS=${GIT_PROMPT_SYMBOLS_AHEAD} read -a GIT_REMOTE_SPLITED <<< "${GIT_REMOTE}"
     local GIT_REMOTE_BEHIND=${GIT_REMOTE_SPLITED[0]}
     local GIT_REMOTE_AHEAD=${GIT_REMOTE_SPLITED[1]}
     if [[ -n "${GIT_REMOTE_AHEAD}" ]]; then
@@ -281,39 +274,23 @@ function updatePrompt() {
 
     STATUS="${STATUS}${GIT_PROMPT_SEPARATOR}"
     if [ "${GIT_STAGED}" -ne "0" ]; then
-      	if [ "${PROMPT_COMPACT_MODE}" ]; then      
-	  StatusColor=${GIT_PROMPT_NOT_CLEAN_COLOR}
-	  STATUS="${StatusColor}${STATUS}${ResetColor}"
-	else
-	  STATUS="${STATUS}${GIT_PROMPT_STAGED}${GIT_STAGED}${ResetColor}"
-	fi
+	         StatusColor=${GIT_PROMPT_NOT_CLEAN_COLOR}
+	         STATUS="${StatusColor}${STATUS}${ResetColor}"
     fi
 
     if [ "${GIT_CHANGED}" -ne "0" ]; then
-	if [ "${PROMPT_COMPACT_MODE}" ]; then      
-	  StatusColor=${GIT_PROMPT_NOT_CLEAN_COLOR}
-	  STATUS="${StatusColor}${STATUS}${ResetColor}"
-	else
-	  STATUS="${STATUS}${GIT_PROMPT_CHANGED}${GIT_CHANGED}${ResetColor}"
-	fi
+	     StatusColor=${GIT_PROMPT_NOT_CLEAN_COLOR}
+	     STATUS="${StatusColor}${STATUS}${ResetColor}"
     fi
 
     if [ "${GIT_UNTRACKED}" -ne "0" ]; then
-	if [ "${PROMPT_COMPACT_MODE}" ]; then      
-	  StatusColor=${GIT_PROMPT_NOT_CLEAN_COLOR}
-	  STATUS="${StatusColor}${STATUS}${ResetColor}"
-	else
-	  STATUS="${STATUS}${GIT_PROMPT_UNTRACKED}${GIT_UNTRACKED}${ResetColor}"
-	fi
+  	  StatusColor=${GIT_PROMPT_NOT_CLEAN_COLOR}
+  	  STATUS="${StatusColor}${STATUS}${ResetColor}"
     fi
 
     if [ "${GIT_CONFLICTS}" -ne "0" ]; then
-	if [ "${PROMPT_COMPACT_MODE}" ]; then      
-	  StatusColor=${GIT_PROMPT_CONFLICTS_COLOR}
-	  STATUS="${StatusColor}${STATUS}${ResetColor}"
-	else
-          STATUS="${STATUS}${GIT_PROMPT_CONFLICTS}${GIT_CONFLICTS}${ResetColor}"
-	fi
+	     StatusColor=${GIT_PROMPT_CONFLICTS_COLOR}
+	     STATUS="${StatusColor}${STATUS}${ResetColor}"
     fi
 
     if [ "${GIT_STASHED}" -ne "0" ]; then
@@ -321,20 +298,12 @@ function updatePrompt() {
     fi
 
     if [ "${GIT_CLEAN}" -eq "1" ]; then
-	if [ "${PROMPT_COMPACT_MODE}" ]; then      
-	  StatusColor=${GIT_PROMPT_CLEAN_COLOR}
-	  STATUS="${StatusColor}${STATUS}"
-	else
-	  STATUS="${STATUS}${GIT_PROMPT_CLEAN}"
-	fi
+  	  StatusColor=${GIT_PROMPT_CLEAN_COLOR}
+  	  STATUS="${StatusColor}${STATUS}"
     fi
 
-    if [ "${PROMPT_COMPACT_MODE}" ]; then      
-      STATUS="${STATUS}${StatusColor}${GIT_PROMPT_SUFFIX}"
-    else
-      STATUS="${STATUS}${ResetColor}${GIT_PROMPT_SUFFIX}"
-    fi
-   
+    STATUS="${STATUS}${StatusColor}${GIT_PROMPT_SUFFIX}"
+
     PS1="${LAST_COMMAND_INDICATOR}${PROMPT_START}$($prompt_callback)${STATUS}${PROMPT_END}"
     if [[ -n "${VIRTUAL_ENV}" ]]; then
       PS1="(${Blue}$(basename ${VIRTUAL_ENV})${ResetColor}) ${PS1}"
