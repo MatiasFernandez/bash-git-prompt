@@ -7,9 +7,9 @@ function async_run()
   }&
 }
 
+# Set home dir for bash-git-prompt
 function git_prompt_dir()
 {
-  # assume the gitstatus.py is in the same directory as this script
   # code thanks to http://stackoverflow.com/questions/59895
   if [ -z "${__GIT_PROMPT_DIR}" ]; then
     local SOURCE="${BASH_SOURCE[0]}"
@@ -67,8 +67,6 @@ function git_prompt_config()
 
    # Various variables you might want for your PS1 prompt instead
   local Time12a="\$(date +%H:%M)"
-  # local Time12a="(\$(date +%H:%M:%S))"
-  # local Time12a="(\@))"
   local PathShort="\w"
 
   # if the envar is defined, source the file for custom colors
@@ -158,18 +156,11 @@ function git_prompt_config()
 
   # fetch remote revisions every other $GIT_PROMPT_FETCH_TIMEOUT (default 5) minutes
   GIT_PROMPT_FETCH_TIMEOUT=${1-5}
+  
   if [ "x$__GIT_STATUS_CMD" == "x" ]
   then
     git_prompt_dir
-    local sfx file
-    # look first for a '.sh' version, then use the python version
-    for sfx in sh py ; do
-      file="${__GIT_PROMPT_DIR}/gitstatus.$sfx"
-      if [[ -x "$file" ]]; then
-        __GIT_STATUS_CMD="$file"
-        break
-      fi
-    done
+    __GIT_STATUS_CMD="${__GIT_PROMPT_DIR}/gitstatus.sh"
   fi
 }
 
