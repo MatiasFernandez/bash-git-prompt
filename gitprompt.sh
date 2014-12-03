@@ -284,13 +284,13 @@ function updatePrompt() {
 	     STATUS="${StatusColor}${STATUS}${ResetColor}"
     fi
 
-    if [ "${GIT_STASHED}" -ne "0" ]; then
-      STATUS="${STATUS}${GIT_PROMPT_STASHED}${GIT_STASHED}${ResetColor}"
-    fi
-
     if [ "${GIT_CLEAN}" -eq "1" ]; then
   	  StatusColor=${GIT_PROMPT_CLEAN_COLOR}
   	  STATUS="${StatusColor}${STATUS}"
+    fi
+
+    if [ "${GIT_STASHED}" -ne "0" ]; then
+      STATUS="${STATUS}${GIT_PROMPT_STASHED}${GIT_STASHED}${ResetColor}"
     fi
 
     STATUS="${STATUS}${StatusColor}${GIT_PROMPT_SUFFIX}"
