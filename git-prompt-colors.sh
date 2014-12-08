@@ -31,9 +31,7 @@ GIT_PROMPT_NOT_CLEAN_COLOR="${Blue}"     # the color to use in compact mode for 
 GIT_PROMPT_CONFLICTS_COLOR="${Red}"   # the color to use in compact mode for conflicts
 
 GIT_PROMPT_START_USER="${PathShort}${ResetColor}"
-GIT_PROMPT_START_ROOT="${PathShort}${ResetColor}"
 GIT_PROMPT_END_USER=" ${ResetColor}$ "
-GIT_PROMPT_END_ROOT=" ${ResetColor}# "
 
 GIT_REMOTE_AHEAD_COLOR="${Blue}"
 GIT_REMOTE_BEHIND_COLOR="${Magenta}"

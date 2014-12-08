@@ -45,10 +45,6 @@ function git_prompt_config()
   local Cyan="\[\033[0;36m\]"
   local Green="\[\033[0;32m\]"
 
-  #Checking if root to change output
-  _isroot=false
-  [[ $UID -eq 0 ]] && _isroot=true
-
   load_git_prompt_config_file
 
   if [ "x${GIT_PROMPT_SHOW_LAST_COMMAND_INDICATOR}" == "x1" ]; then
@@ -60,23 +56,13 @@ function git_prompt_config()
   fi
 
   if [ "x${GIT_PROMPT_START}" == "x" ]; then
-    #First statment is for non root behavior second for root
-    if $_isroot; then
-      PROMPT_START="${GIT_PROMPT_START_ROOT}"
-    else
-      PROMPT_START="${GIT_PROMPT_START_USER}"
-    fi
+    PROMPT_START="${GIT_PROMPT_START_USER}"
   else
     PROMPT_START="${GIT_PROMPT_START}"
   fi
 
   if [ "x${GIT_PROMPT_END}" == "x" ]; then
-    #First statment is for non root behavior second for root
-    if ! $_isroot; then
-      PROMPT_END="${GIT_PROMPT_END_USER}"
-    else
-      PROMPT_END="${GIT_PROMPT_END_ROOT}"
-    fi
+    PROMPT_END="${GIT_PROMPT_END_USER}"
   else
     PROMPT_END="${GIT_PROMPT_END}"
   fi
