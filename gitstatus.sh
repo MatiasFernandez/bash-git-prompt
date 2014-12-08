@@ -72,8 +72,6 @@ if (( num_changed == 0 && num_staged == 0 && num_U == 0 && num_untracked == 0)) 
   clean=1
 fi
 
-remote=
-
 if [[ -z "$branch" ]]; then
   tag=`git describe --exact-match`
   if [[ -n "$tag" ]]; then
@@ -97,13 +95,13 @@ else
     remote_ref="refs/remotes/$remote_name/${merge_name##refs/heads/}"
   fi
 
-  # detect if the local branch have a remote tracking branch
+  # detect if the local branch is tracking a remote branch
   cmd_output=$(git rev-parse --abbrev-ref ${branch}@{upstream} 2>&1 >/dev/null)
 
   if [ `count_lines "$cmd_output" "fatal: No upstream"` == 1 ] ; then
-    has_remote_tracking=0
+    is_tracking_remote_branch=0
   else
-    has_remote_tracking=1
+    is_tracking_remote_branch=1
   fi
 
   # get the revision list, and count the leading "<" and ">"
@@ -112,22 +110,18 @@ else
   num_ahead=`count_lines "$revgit" "^>"`
   num_behind=$(( num_revs - num_ahead ))
   if (( num_behind > 0 )) ; then
-    remote="${remote}${symbols_behind}${num_behind}"
+    behind="${num_behind}"
+  else
+    behind="."
   fi
   if (( num_ahead > 0 )) ; then
-    remote="${remote}${symbols_ahead}${num_ahead}"
+    ahead="${num_ahead}"
+  else
+    ahead="."
   fi
 fi
 
-if [[ -z "$remote" ]] ; then
-  remote='.'
-fi
-
-if [[ "$has_remote_tracking" == "0" ]] ; then
-  remote='L'
-fi 
-
-for w in "$branch" "$remote" $num_staged $num_conflicts $num_changed $num_untracked $num_stashed $clean ; do
+for w in "$branch" "$is_tracking_remote_branch" $num_staged $num_conflicts $num_changed $num_untracked $num_stashed $clean $behind $ahead; do
   echo "$w"
 done
 

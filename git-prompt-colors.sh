@@ -35,6 +35,8 @@ GIT_PROMPT_END_USER=" ${ResetColor}$ "
 
 GIT_REMOTE_AHEAD_COLOR="${Blue}"
 GIT_REMOTE_BEHIND_COLOR="${Magenta}"
+GIT_LOCAL_BRANCH_COLOR="${Magenta}"
+GIT_LOCAL_BRANCH_SYMBOL="L"
 
 # Please do not add colors to these symbols
 GIT_PROMPT_SYMBOLS_AHEAD="↑"         # The symbol for "n versions ahead of origin"

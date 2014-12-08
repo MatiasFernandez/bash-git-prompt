@@ -180,28 +180,34 @@ function updatePrompt() {
   GitStatus=($("${__GIT_STATUS_CMD}" 2>/dev/null))
 
   local GIT_BRANCH=${GitStatus[0]}
-  local GIT_REMOTE=${GitStatus[1]}
-  if [[ "." == "$GIT_REMOTE" ]]; then
-    unset GIT_REMOTE
-  else
-    IFS=${GIT_PROMPT_SYMBOLS_AHEAD} read -a GIT_REMOTE_SPLITED <<< "${GIT_REMOTE}"
-    local GIT_REMOTE_BEHIND=${GIT_REMOTE_SPLITED[0]}
-    local GIT_REMOTE_AHEAD=${GIT_REMOTE_SPLITED[1]}
-    if [[ -n "${GIT_REMOTE_AHEAD}" ]]; then
-      GIT_REMOTE_AHEAD=${GIT_PROMPT_SYMBOLS_AHEAD}${GIT_REMOTE_AHEAD}
-    fi
-  fi
+  local GIT_IS_TRACKING_REMOTE_BRANCH=${GitStatus[1]}
   local GIT_STAGED=${GitStatus[2]}
   local GIT_CONFLICTS=${GitStatus[3]}
   local GIT_CHANGED=${GitStatus[4]}
   local GIT_UNTRACKED=${GitStatus[5]}
   local GIT_STASHED=${GitStatus[6]}
   local GIT_CLEAN=${GitStatus[7]}
+  local GIT_BEHIND=${GitStatus[8]}
+  local GIT_AHEAD=${GitStatus[9]}
+
+  if [[ "." == "$GIT_BEHIND" ]]; then
+    unset GIT_BEHIND
+  else
+    local GIT_REMOTE_BEHIND=${GIT_PROMPT_SYMBOLS_BEHIND}${GIT_BEHIND}
+  fi
+
+  if [[ "." == "$GIT_AHEAD" ]]; then
+    unset GIT_AHEAD
+  else
+    local GIT_REMOTE_AHEAD=${GIT_PROMPT_SYMBOLS_AHEAD}${GIT_AHEAD}
+  fi
 
   if [[ -n "${GitStatus}" ]]; then
     local STATUS="${PROMPT_LEADING_SPACE}${GIT_PROMPT_PREFIX}${GIT_PROMPT_BRANCH}${GIT_BRANCH}${ResetColor}"
 
-    if [[ -n "${GIT_REMOTE}" ]]; then
+    if [[ "${GIT_IS_TRACKING_REMOTE_BRANCH}" == "0" ]]; then
+      STATUS="${STATUS}${GIT_PROMPT_REMOTE}${GIT_LOCAL_BRANCH_COLOR}${GIT_LOCAL_BRANCH_SYMBOL}${ResetColor}"
+    else
       STATUS="${STATUS}${GIT_PROMPT_REMOTE}${GIT_REMOTE_BEHIND_COLOR}${GIT_REMOTE_BEHIND}${ResetColor}${GIT_REMOTE_AHEAD_COLOR}${GIT_REMOTE_AHEAD}${ResetColor}"
     fi
 
