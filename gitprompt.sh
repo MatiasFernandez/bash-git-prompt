@@ -49,61 +49,7 @@ function git_prompt_config()
   _isroot=false
   [[ $UID -eq 0 ]] && _isroot=true
 
-  # source the user's ~/.git-prompt-colors.sh file, or the one that should be
-  # sitting in the same directory as this script
-
-  if [[ -z "$__GIT_PROMPT_COLORS_FILE" ]]; then
-    local pfx file dir
-    for dir in "$HOME" "$__GIT_PROMPT_DIR" ; do
-      for pfx in '.' '' ; do
-        file="$dir/${pfx}git-prompt-colors.sh"
-        if [[ -f "$file" ]]; then
-          __GIT_PROMPT_COLORS_FILE="$file"
-          break 2
-        fi
-      done
-    done
-  fi
-
-   # Various variables you might want for your PS1 prompt instead
-  local Time12a="\$(date +%H:%M)"
-  local PathShort="\w"
-
-  # if the envar is defined, source the file for custom colors
-  if [[ -n "$__GIT_PROMPT_COLORS_FILE" && -f "$__GIT_PROMPT_COLORS_FILE" ]]; then
-    source "$__GIT_PROMPT_COLORS_FILE"
-  else
-    # Default values for the appearance of the prompt.  Do not change these
-    # below.  Instead, copy these to `~/.git-prompt-colors.sh` and change them
-    # there.
-    GIT_PROMPT_PREFIX="["
-    GIT_PROMPT_SUFFIX="]"
-    GIT_PROMPT_SEPARATOR="|"
-    GIT_PROMPT_BRANCH="${Magenta}"
-    GIT_PROMPT_STAGED="${Red}●"
-    GIT_PROMPT_CONFLICTS="${Red}✖"
-    GIT_PROMPT_CHANGED="${Blue}✚"
-    GIT_PROMPT_REMOTE=" "
-    GIT_PROMPT_UNTRACKED="${Cyan}…"
-    GIT_PROMPT_STASHED="${BoldBlue}⚑"
-    GIT_PROMPT_CLEAN="${BoldGreen}✔"
-    GIT_PROMPT_COMMAND_OK="${Green}✔ "
-    GIT_PROMPT_COMMAND_FAIL="${Red}✘ "
-
-    GIT_PROMPT_CLEAN_COLOR="${Green}"
-    GIT_PROMPT_NOT_CLEAN_COLOR="${Blue}"
-    GIT_PROMPT_CONFLICTS_COLOR="${Red}"
-
-    GIT_PROMPT_START_USER="${Yellow}${PathShort}${ResetColor}"
-    GIT_PROMPT_START_ROOT="${Yellow}${PathShort}${ResetColor}"
-    GIT_PROMPT_END_USER=" \n${White}${Time12a}${ResetColor} $ "
-    GIT_PROMPT_END_ROOT=" \n${White}${Time12a}${ResetColor} # "
-
-    # Please do not add colors to these symbols
-    GIT_PROMPT_SYMBOLS_AHEAD="↑·"
-    GIT_PROMPT_SYMBOLS_BEHIND="↓·"
-    GIT_PROMPT_SYMBOLS_PREHASH=":"
-  fi
+  load_git_prompt_config_file
 
   if [ "x${GIT_PROMPT_SHOW_LAST_COMMAND_INDICATOR}" == "x1" ]; then
   	if [ $LAST_COMMAND_STATE = 0 ]; then
@@ -192,6 +138,16 @@ function setGitPrompt() {
   fi
 
   updatePrompt
+}
+
+function load_git_prompt_config_file() {
+  if [[ -z "$__GIT_PROMPT_COLORS_FILE" ]]; then
+    __GIT_PROMPT_COLORS_FILE="$__GIT_PROMPT_DIR/git-prompt-colors.sh"
+  fi
+
+  if [[ -n "$__GIT_PROMPT_COLORS_FILE" && -f "$__GIT_PROMPT_COLORS_FILE" ]]; then
+    source "$__GIT_PROMPT_COLORS_FILE"
+  fi
 }
 
 function checkUpstream() {

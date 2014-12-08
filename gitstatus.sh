@@ -9,51 +9,37 @@
 count_lines() { echo "$1" | egrep -c "^$2" ; }
 all_lines() { echo "$1" | grep -v "^$" | wc -l ; }
 
-if [ -z "${__GIT_PROMPT_DIR}" ]; then
-  SOURCE="${BASH_SOURCE[0]}"
-  while [ -h "${SOURCE}" ]; do
-    DIR="$( cd -P "$( dirname "${SOURCE}" )" && pwd )"
-    SOURCE="$(readlink "${SOURCE}")"
-    [[ $SOURCE != /* ]] && SOURCE="${DIR}/${SOURCE}"
-  done
-  __GIT_PROMPT_DIR="$( cd -P "$( dirname "${SOURCE}" )" && pwd )"
-fi
+#REMOVE: This is duplicated code and must be removed from this file
+function load_git_prompt_config_file() {
+  if [[ -z "$__GIT_PROMPT_COLORS_FILE" ]]; then
+    __GIT_PROMPT_COLORS_FILE="$__GIT_PROMPT_DIR/git-prompt-colors.sh"
+  fi
 
-if [[ -z "$__GIT_PROMPT_COLORS_FILE" ]]; then
-  for dir in "$HOME" "$__GIT_PROMPT_DIR" ; do
-    for pfx in '.' '' ; do
-      file="$dir/${pfx}git-prompt-colors.sh"
-      if [[ -f "$file" ]]; then
-        __GIT_PROMPT_COLORS_FILE="$file"
-        break 2
-      fi
+  if [[ -n "$__GIT_PROMPT_COLORS_FILE" && -f "$__GIT_PROMPT_COLORS_FILE" ]]; then
+    source "$__GIT_PROMPT_COLORS_FILE"
+  fi
+}
+
+#REMOVE: This is duplicated code and must be removed from this file
+function set_git_prompt_home_dir() {
+  # code thanks to http://stackoverflow.com/questions/59895
+  if [ -z "${__GIT_PROMPT_DIR}" ]; then
+    local SOURCE="${BASH_SOURCE[0]}"
+    while [ -h "${SOURCE}" ]; do
+      local DIR="$( cd -P "$( dirname "${SOURCE}" )" && pwd )"
+      SOURCE="$(readlink "${SOURCE}")"
+      [[ $SOURCE != /* ]] && SOURCE="${DIR}/${SOURCE}"
     done
-  done
-fi
+    __GIT_PROMPT_DIR="$( cd -P "$( dirname "${SOURCE}" )" && pwd )"
+  fi
+}
 
-# if the envar is defined, source the file for custom colors
-if [[ -n "$__GIT_PROMPT_COLORS_FILE" && -f "$__GIT_PROMPT_COLORS_FILE" ]]; then
-  source "$__GIT_PROMPT_COLORS_FILE"
-fi
+set_git_prompt_home_dir
+load_git_prompt_config_file
 
-# change those symbols to whatever you prefer
-if [[ -n "${GIT_PROMPT_SYMBOLS_AHEAD}" ]]; then
-  symbols_ahead="${GIT_PROMPT_SYMBOLS_AHEAD}"
-else
-  symbols_ahead='↑·'
-fi
-
-if [[ -n "${GIT_PROMPT_SYMBOLS_BEHIND}" ]]; then
-  symbols_behind="${GIT_PROMPT_SYMBOLS_BEHIND}"
-else
-  symbols_behind='↓·'
-fi
-
-if [[ -n "${GIT_PROMPT_SYMBOLS_PREHASH}" ]]; then
-  symbols_prehash=':'
-else
-  symbols_prehash="${GIT_PROMPT_SYMBOLS_PREHASH}"
-fi
+symbols_ahead="${GIT_PROMPT_SYMBOLS_AHEAD}"
+symbols_behind="${GIT_PROMPT_SYMBOLS_BEHIND}"
+symbols_prehash="${GIT_PROMPT_SYMBOLS_PREHASH}"
 
 gitsym=`git symbolic-ref HEAD`
 
