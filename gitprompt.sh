@@ -213,29 +213,26 @@ function updatePrompt() {
 
     STATUS="${STATUS}${GIT_PROMPT_SEPARATOR}"
     if [ "${GIT_STAGED}" -ne "0" ]; then
-	         StatusColor=${GIT_PROMPT_NOT_CLEAN_COLOR}
-	         STATUS="${StatusColor}${STATUS}${ResetColor}"
+      StatusColor=${GIT_PROMPT_NOT_CLEAN_COLOR}
     fi
 
     if [ "${GIT_CHANGED}" -ne "0" ]; then
-	     StatusColor=${GIT_PROMPT_NOT_CLEAN_COLOR}
-	     STATUS="${StatusColor}${STATUS}${ResetColor}"
+	    StatusColor=${GIT_PROMPT_NOT_CLEAN_COLOR}
     fi
 
     if [ "${GIT_UNTRACKED}" -ne "0" ]; then
   	  StatusColor=${GIT_PROMPT_NOT_CLEAN_COLOR}
-  	  STATUS="${StatusColor}${STATUS}${ResetColor}"
     fi
 
     if [ "${GIT_CONFLICTS}" -ne "0" ]; then
-	     StatusColor=${GIT_PROMPT_CONFLICTS_COLOR}
-	     STATUS="${StatusColor}${STATUS}${ResetColor}"
+	    StatusColor=${GIT_PROMPT_CONFLICTS_COLOR}
     fi
 
     if [ "${GIT_CLEAN}" -eq "1" ]; then
   	  StatusColor=${GIT_PROMPT_CLEAN_COLOR}
-  	  STATUS="${StatusColor}${STATUS}"
     fi
+    
+    STATUS="${StatusColor}${STATUS}${ResetColor}"
 
     if [ "${GIT_STASHED}" -ne "0" ]; then
       STATUS="${STATUS}${GIT_PROMPT_STASHED}${GIT_STASHED}${ResetColor}"
