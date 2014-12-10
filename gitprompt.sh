@@ -210,13 +210,14 @@ function updatePrompt() {
   if [[ -n "${GitStatus}" ]]; then
     local STATUS="${PROMPT_LEADING_SPACE}${GIT_PROMPT_PREFIX}${GIT_PROMPT_BRANCH}${GIT_BRANCH}${ResetColor}"
 
-    if [[ "${GIT_IS_TRACKING_REMOTE_BRANCH}" == "0" ]]; then
+    if [[ "${GIT_IS_TRACKING_REMOTE_BRANCH}" == false ]]; then
       STATUS="${STATUS}${GIT_PROMPT_REMOTE}${GIT_LOCAL_BRANCH_COLOR}${GIT_LOCAL_BRANCH_SYMBOL}${ResetColor}"
     else
       STATUS="${STATUS}${GIT_PROMPT_REMOTE}${GIT_REMOTE_BEHIND_COLOR}${GIT_REMOTE_BEHIND}${ResetColor}${GIT_REMOTE_AHEAD_COLOR}${GIT_REMOTE_AHEAD}${ResetColor}"
     fi
 
     STATUS="${STATUS}${GIT_PROMPT_SEPARATOR}"
+    
     if [ "${GIT_STAGED}" -ne "0" ]; then
       StatusColor=${GIT_PROMPT_NOT_CLEAN_COLOR}
     fi
@@ -233,10 +234,10 @@ function updatePrompt() {
 	    StatusColor=${GIT_PROMPT_CONFLICTS_COLOR}
     fi
 
-    if [ "${GIT_CLEAN}" -eq "1" ]; then
-  	  StatusColor=${GIT_PROMPT_CLEAN_COLOR}
+    if [[ "${GIT_CLEAN}" == true ]]; then
+      StatusColor=${GIT_PROMPT_CLEAN_COLOR}
     fi
-    
+
     STATUS="${StatusColor}${STATUS}${ResetColor}"
 
     if [ "${GIT_STASHED}" -ne "0" ]; then

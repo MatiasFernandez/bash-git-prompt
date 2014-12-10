@@ -31,12 +31,12 @@ num_untracked=`git status -s -uall | grep -c "^??"`
 num_stashed=`git stash list | wc -l`
 
 if (( num_changed == 0 && num_staged == 0 && num_untracked == 0 )) ; then
-  clean=1
+  clean=true
 else
-  clean=0
+  clean=false
 fi
 
-is_tracking_remote_branch=0
+is_tracking_remote_branch=false
 
 if [[ -z "$branch" ]]; then
   tag=`git describe --exact-match`
@@ -67,10 +67,8 @@ else
   # detect if the local branch is tracking a remote branch
   cmd_output=$(git rev-parse --abbrev-ref ${branch}@{upstream} 2>&1 >/dev/null)
 
-  if [ `count_lines "$cmd_output" "fatal: No upstream"` == 1 ] ; then
-    is_tracking_remote_branch=0
-  else
-    is_tracking_remote_branch=1
+  if [ `count_lines "$cmd_output" "fatal: No upstream"` == 0 ] ; then
+    is_tracking_remote_branch=true
   fi
 
   # get the revision list, and count the leading "<" and ">"
@@ -90,7 +88,7 @@ else
   fi
 fi
 
-for w in "$ref_type" "$branch" "$is_tracking_remote_branch" $num_staged $num_conflicts $num_changed $num_untracked $num_stashed $clean $behind $ahead; do
+for w in "$ref_type" "$branch" $is_tracking_remote_branch $num_staged $num_conflicts $num_changed $num_untracked $num_stashed $clean $behind $ahead; do
   echo "$w"
 done
 
