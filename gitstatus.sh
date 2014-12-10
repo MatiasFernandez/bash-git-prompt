@@ -76,19 +76,9 @@ else
   num_revs=`all_lines "$revgit"`
   num_ahead=`count_lines "$revgit" "^>"`
   num_behind=$(( num_revs - num_ahead ))
-  if (( num_behind > 0 )) ; then
-    behind="${num_behind}"
-  else
-    behind="."
-  fi
-  if (( num_ahead > 0 )) ; then
-    ahead="${num_ahead}"
-  else
-    ahead="."
-  fi
 fi
 
-for w in "$ref_type" "$branch" $is_tracking_remote_branch $num_staged $num_conflicts $num_changed $num_untracked $num_stashed $clean $behind $ahead; do
+for w in "$ref_type" "$branch" $is_tracking_remote_branch $num_staged $num_conflicts $num_changed $num_untracked $num_stashed $clean $num_behind $num_ahead; do
   echo "$w"
 done
 

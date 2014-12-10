@@ -195,15 +195,11 @@ function updatePrompt() {
     GIT_BRANCH="${GIT_PROMPT_SYMBOLS_PREHASH}${GIT_BRANCH}"
   fi
 
-  if [[ "." == "$GIT_BEHIND" ]]; then
-    unset GIT_BEHIND
-  else
+  if [[ "$GIT_BEHIND" > 0 ]]; then
     local GIT_REMOTE_BEHIND=${GIT_PROMPT_SYMBOLS_BEHIND}${GIT_BEHIND}
   fi
 
-  if [[ "." == "$GIT_AHEAD" ]]; then
-    unset GIT_AHEAD
-  else
+  if [[ "$GIT_AHEAD" > 0 ]]; then
     local GIT_REMOTE_AHEAD=${GIT_PROMPT_SYMBOLS_AHEAD}${GIT_AHEAD}
   fi
 
@@ -217,7 +213,7 @@ function updatePrompt() {
     fi
 
     STATUS="${STATUS}${GIT_PROMPT_SEPARATOR}"
-    
+
     if [ "${GIT_STAGED}" -ne "0" ]; then
       StatusColor=${GIT_PROMPT_NOT_CLEAN_COLOR}
     fi
