@@ -28,17 +28,16 @@ num_changed=$(( `all_lines "$gitstatus"` - `count_lines "$gitstatus" U` ))
 num_conflicts=`count_lines "$staged_files" U`
 num_staged=$(( `all_lines "$staged_files"` - num_conflicts ))
 num_untracked=`git status -s -uall | grep -c "^??"`
-if [[ -n "$GIT_PROMPT_IGNORE_STASH" ]]; then
-  num_stashed=0
-else	
-  num_stashed=`git stash list | wc -l`
+num_stashed=`git stash list | wc -l`
+
+if (( num_changed == 0 && num_staged == 0 && num_untracked == 0 )) ; then
+  clean=1
+else
+  clean=0
 fi
 
-clean=0
-if (( num_changed == 0 && num_staged == 0 && num_U == 0 && num_untracked == 0)) ; then
-  clean=1
-fi
 is_tracking_remote_branch=0
+
 if [[ -z "$branch" ]]; then
   tag=`git describe --exact-match`
   if [[ -n "$tag" ]]; then
