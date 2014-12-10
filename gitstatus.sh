@@ -38,7 +38,7 @@ clean=0
 if (( num_changed == 0 && num_staged == 0 && num_U == 0 && num_untracked == 0)) ; then
   clean=1
 fi
-
+is_tracking_remote_branch=0
 if [[ -z "$branch" ]]; then
   tag=`git describe --exact-match`
   if [[ -n "$tag" ]]; then
