@@ -1,45 +1,12 @@
 #!/bin/bash
 # -*- coding: UTF-8 -*-
 # gitstatus.sh -- produce the current git repo status on STDOUT
-# Functionally equivalent to 'gitstatus.py', but written in bash (not python).
 #
 # Alan K. Stebbens <aks@stebbens.org> [http://github.com/aks]
 
 # helper functions
 count_lines() { echo "$1" | egrep -c "^$2" ; }
 all_lines() { echo "$1" | grep -v "^$" | wc -l ; }
-
-#REMOVE: This is duplicated code and must be removed from this file
-function load_git_prompt_config_file() {
-  if [[ -z "$__GIT_PROMPT_COLORS_FILE" ]]; then
-    __GIT_PROMPT_COLORS_FILE="$__GIT_PROMPT_DIR/git-prompt-colors.sh"
-  fi
-
-  if [[ -n "$__GIT_PROMPT_COLORS_FILE" && -f "$__GIT_PROMPT_COLORS_FILE" ]]; then
-    source "$__GIT_PROMPT_COLORS_FILE"
-  fi
-}
-
-#REMOVE: This is duplicated code and must be removed from this file
-function set_git_prompt_home_dir() {
-  # code thanks to http://stackoverflow.com/questions/59895
-  if [ -z "${__GIT_PROMPT_DIR}" ]; then
-    local SOURCE="${BASH_SOURCE[0]}"
-    while [ -h "${SOURCE}" ]; do
-      local DIR="$( cd -P "$( dirname "${SOURCE}" )" && pwd )"
-      SOURCE="$(readlink "${SOURCE}")"
-      [[ $SOURCE != /* ]] && SOURCE="${DIR}/${SOURCE}"
-    done
-    __GIT_PROMPT_DIR="$( cd -P "$( dirname "${SOURCE}" )" && pwd )"
-  fi
-}
-
-set_git_prompt_home_dir
-load_git_prompt_config_file
-
-symbols_ahead="${GIT_PROMPT_SYMBOLS_AHEAD}"
-symbols_behind="${GIT_PROMPT_SYMBOLS_BEHIND}"
-symbols_prehash="${GIT_PROMPT_SYMBOLS_PREHASH}"
 
 gitsym=`git symbolic-ref HEAD`
 
@@ -76,10 +43,13 @@ if [[ -z "$branch" ]]; then
   tag=`git describe --exact-match`
   if [[ -n "$tag" ]]; then
     branch="$tag"
+    ref_type="tag"
   else
-    branch="${symbols_prehash}`git rev-parse --short HEAD`"
+    branch="`git rev-parse --short HEAD`"
+    ref_type="hash"
   fi
 else
+  ref_type="branch"
   remote_name=`git config branch.${branch}.remote`
 
   if [[ -n "$remote_name" ]]; then
@@ -121,7 +91,7 @@ else
   fi
 fi
 
-for w in "$branch" "$is_tracking_remote_branch" $num_staged $num_conflicts $num_changed $num_untracked $num_stashed $clean $behind $ahead; do
+for w in "$ref_type" "$branch" "$is_tracking_remote_branch" $num_staged $num_conflicts $num_changed $num_untracked $num_stashed $clean $behind $ahead; do
   echo "$w"
 done
 

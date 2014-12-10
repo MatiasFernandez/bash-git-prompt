@@ -179,16 +179,21 @@ function updatePrompt() {
   local -a GitStatus
   GitStatus=($("${__GIT_STATUS_CMD}" 2>/dev/null))
 
-  local GIT_BRANCH=${GitStatus[0]}
-  local GIT_IS_TRACKING_REMOTE_BRANCH=${GitStatus[1]}
-  local GIT_STAGED=${GitStatus[2]}
-  local GIT_CONFLICTS=${GitStatus[3]}
-  local GIT_CHANGED=${GitStatus[4]}
-  local GIT_UNTRACKED=${GitStatus[5]}
-  local GIT_STASHED=${GitStatus[6]}
-  local GIT_CLEAN=${GitStatus[7]}
-  local GIT_BEHIND=${GitStatus[8]}
-  local GIT_AHEAD=${GitStatus[9]}
+  local GIT_REF_TYPE=${GitStatus[0]}
+  local GIT_BRANCH=${GitStatus[1]}
+  local GIT_IS_TRACKING_REMOTE_BRANCH=${GitStatus[2]}
+  local GIT_STAGED=${GitStatus[3]}
+  local GIT_CONFLICTS=${GitStatus[4]}
+  local GIT_CHANGED=${GitStatus[5]}
+  local GIT_UNTRACKED=${GitStatus[6]}
+  local GIT_STASHED=${GitStatus[7]}
+  local GIT_CLEAN=${GitStatus[8]}
+  local GIT_BEHIND=${GitStatus[9]}
+  local GIT_AHEAD=${GitStatus[10]}
+
+  if [[ "$GIT_REF_TYPE" == "hash" ]]; then
+    GIT_BRANCH="${GIT_PROMPT_SYMBOLS_PREHASH}${GIT_BRANCH}"
+  fi
 
   if [[ "." == "$GIT_BEHIND" ]]; then
     unset GIT_BEHIND
