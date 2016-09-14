@@ -67,7 +67,7 @@ else
   # detect if the local branch is tracking a remote branch
   cmd_output=$(git rev-parse --abbrev-ref ${branch}@{upstream} 2>&1 >/dev/null)
 
-  if [ `count_lines "$cmd_output" "fatal: No upstream"` == 0 ] ; then
+  if [ `count_lines "$cmd_output" "fatal: no upstream"` == 0 ] ; then
     is_tracking_remote_branch=true
   fi
 
